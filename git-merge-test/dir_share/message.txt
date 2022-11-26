@@ -1,1 +1,2 @@
-hello from dir_1
+hello
+goodbye
