@@ -8,14 +8,14 @@ $(document).ready(function () {
       let maxColCount =
         $("tbody tr:nth-child(1) input[type='text']").length - 1;
 
-      // 参照されている input　から一番近い tr　要素を取得する
+      // アクティブな input　から一番近い tr　要素を取得する
       let tr = $(this).closest("tr");
       if (tr[0]) {
-        // カレントの行番号を取得
+        // カレント行番号を取得
         let rowNo = $("tbody tr").index(tr[0]);
-        //　カレントの列番号を取得 (nth-child() は １スタート)
+        //　カレント列番を取得 (nth-child() のインデックスは １　スタートなので注意！)
         let colNo = $(`tbody tr:nth-child(${rowNo + 1}) input`).index(this);
-        // 遷移先の列番号を取得する
+        // 遷移先の列番を取得する
         let nextColNo = colNo + (e.shiftKey ? -1 : 1);
         // 遷移先の行データを取得する ※　行番号を取得しているのではない。
         let nextRow = e.shiftKey ? $(tr).prev() : $(tr).next();
@@ -34,7 +34,7 @@ $(document).ready(function () {
           $("input", nextRow[0]).get(colNo).focus();
           return;
         }
-        // 列番号変更処理
+        // 列番変更処理
         if (!nextRow.length && 0 <= nextColNo) {
           //　遷移先の　tr　オブジェクトを取得する
           let nextRt = e.shiftKey
