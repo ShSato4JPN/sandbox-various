@@ -1,0 +1,5 @@
+@use 'mixin' as m;
+
+.bar {
+    @include m.foo
+}
