@@ -1,2 +1,2 @@
 git rebase test
-hello goodbye AAA BBB
+hello goodbye AAA BBB CCC
