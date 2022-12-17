@@ -1,2 +1,2 @@
 git rebase test
-AAA BBB
+AAA BBB CCC
