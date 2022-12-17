@@ -6,10 +6,10 @@
   height: 100px;
 
   @include mq(mobile) {
-    background-color: yellow;
+    background-color: yellow; 
   }
 
   @include mq(desktop) {
-    background-color: red;
+    background-color: tomato; 
   }
 }
