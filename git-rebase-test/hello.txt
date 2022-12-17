@@ -1,1 +1,2 @@
 git rebase test
+AAA BBB
