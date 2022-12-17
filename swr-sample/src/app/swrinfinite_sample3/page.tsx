@@ -6,8 +6,8 @@ import useSWRInfinite, from "swr/infinite";
 //　pageIndex : fetcher がキックするインデックス
 // previousPageData : 前のインデックスで取得したデータ
 const getKey = (pageIndex, previousPageData) => {
-  console.dir(previousPageData)
-  return `/api/posts/${pageIndex + 1}`;
+  console.dir(pageIndex)
+  return `/api/posts/${pageIndex}`;
 };
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
