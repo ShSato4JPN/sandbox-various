@@ -12,8 +12,6 @@ export default async function handler(
   await fetch("https://jsonplaceholder.typicode.com/posts")
     .then((res) => res.json())
     .then((d) => {
-      console.log("bar");
-      console.dir(d);
       res.status(200).json({ data: d });
     });
 }
