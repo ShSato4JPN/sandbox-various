@@ -12,6 +12,8 @@ export default async function handler(
   await fetch(`https://jsonplaceholder.typicode.com/posts/${req.query.slug}`)
     .then((res) => res.json())
     .then((data) => {
-      res.status(200).json({ data });
+      setTimeout(() => {
+        res.status(200).json({ data });
+      }, 5000);
     });
 }
