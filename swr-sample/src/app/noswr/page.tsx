@@ -11,13 +11,10 @@ export default function Home() {
   );
 
   useEffect(() => {
-    fetch("/api/post")
+    fetch("/api/posts")
       .then((res) => res.json())
       .then((data) => {
-        setTimeout(() => {
-          cache.set("kye", JSON.stringify(data));
-          setValue(JSON.stringify(data));
-        }, 5000);
+        setValue(JSON.stringify(data));
       })
       .catch((e) => setValue(e.message));
   }, []);
