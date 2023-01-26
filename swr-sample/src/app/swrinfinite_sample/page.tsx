@@ -2,6 +2,9 @@
 import React, { useState } from "react";
 import useSWRInfinite, from "swr/infinite";
 
+// getKey の返却値 （swr　のキー）が fetcher　に渡される。
+//　pageIndex : fetcher がキックするインデックス
+// previousPageData : 前のインデックスで取得したデータ
 const getKey = (pageIndex, previousPageData) => {
   console.log('*************************************************')
   console.log(`pageIndex: ${pageIndex}`);
@@ -16,6 +19,13 @@ const getKey = (pageIndex, previousPageData) => {
 const fetcher = (url) => fetch(url).then((res) => res.json());
 const PAGE_SIZE = 6;
 
+// data: 各ページのフェッチしたレスポンス値の配列
+// error: useSWR の error と同じ
+// isLoading: useSWR の isLoading と同じ
+// isValidating: useSWR の isValidating と同じ
+// mutate: useSWR のバインドされたミューテート関数と同じですが、データ配列を操作します
+// size: フェッチして返されるだろうページ数
+// setSize: フェッチする必要のあるページ数を設定します
 export default function App() {
   const [repo, setRepo] = useState("reactjs/react-a11y");
   const [val, setVal] = useState(repo);
@@ -31,6 +41,7 @@ export default function App() {
     isLoadingInitialData ||
     (size > 0 && data && typeof data[size - 1] === "undefined");
   const isEmpty = data?.[0]?.length === 0;
+  // 次のデータが存在しない、データ数が少ない場合はボタンを非活性にする。
   const isReachingEnd =
     isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
   const isRefreshing = isValidating && data && data.length === size;
