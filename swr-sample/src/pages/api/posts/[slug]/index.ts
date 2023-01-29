@@ -9,7 +9,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  await fetch(`https://jsonplaceholder.typicode.com/posts/${req.query.slug}`)
+  await fetch(
+    `https://jsonplaceholder.typicode.com/posts/${req.query.slug || 1}`
+  )
     .then((res) => res.json())
     .then((data) => {
       res.status(200).json({ data });
