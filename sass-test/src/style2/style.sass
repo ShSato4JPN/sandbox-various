@@ -1,0 +1,17 @@
+@use 'mq' as * with (
+  $breakpoints: (
+    mobile: 320px,
+    tablet: 740px,
+    desktop: 980px,
+    wide: 1300px,
+  )
+);
+
+.foo {
+  @include mq($from: mobile, $until: tablet) {
+    background: red;
+  }
+  @include mq($from: tablet) {
+    background: green;
+  }
+}
