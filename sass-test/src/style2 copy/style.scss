@@ -1,0 +1,23 @@
+$breakpoints: (
+  'mobile': 'screen and (min-width: 576px)',
+  'tablet': 'screen and (min-width: 768px)',
+  'desktop': 'screen and (min-width: 992px)',
+) !default;
+
+@mixin media($breakpoint) {
+    @media #{map-get($breakpoints, $breakpoint)} {
+        @content;
+    }
+}
+
+.content {
+  @include media(mobile) {
+    background: red;
+  }
+  @include media(tablet) {
+    background: green;
+  }
+  @include media(desktop) {
+    background: skyblue;
+  }
+}

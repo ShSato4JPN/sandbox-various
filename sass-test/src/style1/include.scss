@@ -1,5 +1,7 @@
 @use 'mixin' as m;
 
 .bar {
+    margin-top: 10px;
+    margin-bottom: 10px;
     @include m.foo
 }
