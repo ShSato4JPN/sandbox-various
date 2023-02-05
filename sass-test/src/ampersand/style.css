@@ -1,0 +1,14 @@
+.parent {
+  background-color: tomato;
+}
+.parent .sub {
+  background-color: skyblue;
+}
+.parent .sub .sub2 {
+  background-color: pink;
+}
+.parent .sub .sub2:hover {
+  color: limegreen;
+}
+
+/*# sourceMappingURL=style.css.map */

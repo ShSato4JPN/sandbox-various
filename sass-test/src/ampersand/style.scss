@@ -1,0 +1,12 @@
+.parent {
+  background-color: tomato;
+  .sub {
+    background-color: skyblue;
+    .sub2 {
+      background-color: pink;
+      &:hover {
+        color: limegreen
+      }
+    }
+  }
+}
