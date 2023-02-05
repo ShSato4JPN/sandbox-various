@@ -1,0 +1,16 @@
+@import "_breakpoint";
+@import "_mixin";
+
+.test {
+  color: blue;
+  width: 100px;
+  height: 100px;
+
+  @include mq(sm) {
+    background-color: yellow;
+  }
+
+  @include mq(lg) {
+    background-color: red;
+  }
+}
