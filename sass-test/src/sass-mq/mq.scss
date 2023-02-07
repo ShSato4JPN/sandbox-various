@@ -1,5 +1,0 @@
-@use "styles/breakpoints" as *;
-
-@forward "sass-mq" with (
-  $breakpoints: $breakpoints
-);
