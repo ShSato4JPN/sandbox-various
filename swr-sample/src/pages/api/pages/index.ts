@@ -19,7 +19,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const query = req.query;
-  const page = query.page || 1;
+  const page = Number(query.page) == 0 ? 1 : Number(query.page);
 
   const start = req.query.page ? Number(page) * 6 - 5 : 1;
   const end = req.query.page ? Number(page) * 6 : 6;
