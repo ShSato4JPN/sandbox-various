@@ -1,7 +1,7 @@
 "use client";
-import useSWRInfinite from "swr/infinite";
+import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
 
-const getKey = (pageIndex, previousPageData) => {
+const getKey: SWRInfiniteKeyLoader = (pageIndex, previousPageData) => {
   //if (previousPageData && !previousPageData.length) return null; // 最後に到達した
   console.log(previousPageData);
 
