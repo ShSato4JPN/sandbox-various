@@ -1,4 +1,4 @@
-@import "test";
+@use "mixin" as *;
 
 .test {
   color: blue;
