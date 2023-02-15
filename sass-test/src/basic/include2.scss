@@ -1,0 +1,15 @@
+@import "test2";
+
+.test {
+  color: blue;
+  width: 100px;
+  height: 100px;
+
+  @include mq(mobile) {
+    background-color: yellow;
+  }
+
+  @include mq(desktop) {
+    background-color: red;
+  }
+}
