@@ -1,7 +1,15 @@
-@use 'mixin' as m;
+@use "mixin" as m;
 
-.bar {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    @include m.foo
+.hoge {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  @include m.foo;
+}
+
+.huga {
+  @include m.bar;
+}
+
+.hogehuga {
+  @include m.foobar;
 }

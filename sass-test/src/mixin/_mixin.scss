@@ -1,5 +1,17 @@
 @mixin foo {
-    width: 100px;
-    height: 100px;
-    background-color: orange;
+  width: 100px;
+  height: 100px;
+  background-color: orange;
+}
+
+@mixin bar {
+  width: 500px;
+  height: 500px;
+  background-color: tomato;
+}
+
+// mixin　の中で include が可能か確認
+@mixin foobar {
+  @include foo;
+  @include bar;
 }

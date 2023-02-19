@@ -3,7 +3,7 @@
 $blue: #3bbfce;
 $margin: 16px;
 .border {
-    padding: math.div($margin,2);
-    margin: math.div($margin,2);
-    border-color: $blue;
+  padding: math.div($margin, 2);
+  margin: math.div($margin, 2);
+  border-color: $blue;
 }
