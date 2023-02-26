@@ -140,5 +140,10 @@ puts 1 + 1
 ## 画像
 
   `;
-  return <ReactMarkdown children={markdown} />;
+  return (
+    <div>
+      <h1>test</h1>
+      <ReactMarkdown children={markdown} />
+    </div>
+  );
 }
