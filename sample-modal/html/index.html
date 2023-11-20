@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../js/jQuery 3.6.1.js"></script>
+  <script src="../js/sample-script.js"></script>
+  <style>
+    .author-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .author-sns-regist-form {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+
+    .author-sns-select select {
+      width: 150px;
+      height: 100%;
+    }
+
+    .author-sns-text input {
+      width: 300px;
+      height: 30px;
+    }
+
+    .author-sns-regist-btn button {
+      width: 50px;
+      height: 100%;
+    }
+
+    #author-sns-list {
+      list-style: none;
+    }
+
+    .author-sns-list-item {
+      padding: 5px;
+      border: 1px solid rgb(62, 62, 62);
+      margin-bottom: 5px;
+    }
+
+    .sns-info {
+      display: flex;
+      flex-direction: row;
+      gap: 10px
+    }
+
+    .sns-name {
+      width: 100px;
+    }
+
+    .sns-url {
+      width: 300px;
+    }
+
+    .sns-delete-btn {
+      cursor: pointer;
+    }
+
+    .twitter {
+      background-color: rgb(150, 222, 186);
+    }
+
+    .facebook {
+      background-color: rgb(168, 201, 243);
+    }
+
+    .instagram {
+      background-color: rgb(250, 196, 214);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="author-container">
+    <div id="author-sns">
+      <ul id="author-sns-list">
+      </ul>
+    </div>
+    <div class="author-sns-regist-form">
+      <div class="author-sns-select">
+        <select name="sns" id="sns">
+          <option value="no-selected" selected disabled>選択してください</option>
+          <option value="twitter">Twitter</option>
+          <option value="facebook">Facebook</option>
+          <option value="instagram">Instagram</option>
+          <option value="youtube">Youtube</option>
+          <option value="tiktok">Tiktok</option>
+          <option value="line">Line</option>
+          <option value="other">その他</option>
+        </select>
+      </div>
+      <div class="author-sns-text">
+        <input type="text" name="sns" id="sns-url" placeholder="SNSのURLを入力してください">
+      </div>
+      <div class="author-sns-regist-btn">
+        <button id="sns-regist-btn">追加</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
