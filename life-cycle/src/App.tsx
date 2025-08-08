@@ -15,9 +15,22 @@ function useFooAtomHook() {
 }
 
 function App() {
+  const { all, setAll } = useFooAtomHook();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleClick = () => {
+    if (inputRef.current) {
+      setAll(inputRef.current.value);
+    }
+  };
 
   return (
     <>
+      <div>Sample: {JSON.stringify(all)}</div>
+      <input type="text" ref={inputRef} />
+      <button onClick={handleClick}>Update</button>
     </>
+  );
 }
 
+export default App;
