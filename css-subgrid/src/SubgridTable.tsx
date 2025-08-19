@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 interface ColumnData {
   labels: string[];
   data: (string | number)[][];
+  columnFlags?: boolean[]; // 結合表示フラグの配列
 }
 
 interface SubgridTableProps {
@@ -10,7 +11,7 @@ interface SubgridTableProps {
 }
 
 export default function SubgridTable({ data }: SubgridTableProps) {
-  const { labels, data: columnData } = data;
+  const { labels, data: columnData, columnFlags } = data;
   const numRows = columnData[0]?.length || 0;
   const [focusedColumn, setFocusedColumn] = useState<number | null>(null);
   const [columnOrder, setColumnOrder] = useState<number[]>(() =>
@@ -22,10 +23,9 @@ export default function SubgridTable({ data }: SubgridTableProps) {
   const dragStartX = useRef(0);
   const dragStartIndex = useRef(-1);
 
-  // IDが奇数のユーザーを特定（IDは最初の行）
-  const isOddId = (index: number) => {
-    const id = columnData[0][index];
-    return typeof id === "number" && id % 2 === 1;
+  // フラグがtrueの列を特定
+  const isFlaggedColumn = (index: number) => {
+    return columnFlags ? columnFlags[index] === true : false;
   };
 
   // 配列要素を移動する関数
@@ -149,7 +149,7 @@ export default function SubgridTable({ data }: SubgridTableProps) {
             onFocus={() => !isDragging && setFocusedColumn(displayIndex)}
             onBlur={() => !isDragging && setFocusedColumn(null)}
           >
-            {!isOddId(originalColumnIndex) &&
+            {!isFlaggedColumn(originalColumnIndex) &&
               `ユーザー ${originalColumnIndex + 1}`}
 
             {/* ドラッグハンドル */}
@@ -174,7 +174,7 @@ export default function SubgridTable({ data }: SubgridTableProps) {
           columnOrder.map((originalColumnIndex, displayIndex) => (
             <div
               key={`data-${labelIndex}-${originalColumnIndex}`}
-              className={`p-4 border-r border-gray-200 last:border-r-0 border-b border-gray-200 last:border-b-0 flex items-center text-sm text-gray-800 whitespace-pre-line leading-relaxed bg-white hover:bg-blue-50 transition-all cursor-pointer ${
+              className={`p-4 border-r border-gray-200 last:border-r-0 border-b border-gray-200 last:border-b-0 flex items-center text-sm text-gray-800 leading-relaxed bg-white hover:bg-blue-50 transition-all cursor-pointer break-words ${
                 draggedColumn === displayIndex ? "opacity-50" : ""
               }`}
               style={{
@@ -194,7 +194,7 @@ export default function SubgridTable({ data }: SubgridTableProps) {
               onFocus={() => !isDragging && setFocusedColumn(displayIndex)}
               onBlur={() => !isDragging && setFocusedColumn(null)}
             >
-              {!isOddId(originalColumnIndex) &&
+              {!isFlaggedColumn(originalColumnIndex) &&
                 (label === "ステータス" ? (
                   <span
                     className={`px-3 py-1.5 rounded-full text-xs font-medium uppercase tracking-wide ${
@@ -218,10 +218,10 @@ export default function SubgridTable({ data }: SubgridTableProps) {
           ))
         )}
 
-        {/* 奇数列の結合セル */}
+        {/* フラグがtrueの列の結合セル */}
         {columnOrder.map(
           (originalColumnIndex, displayIndex) =>
-            isOddId(originalColumnIndex) && (
+            isFlaggedColumn(originalColumnIndex) && (
               <div
                 key={`merged-${originalColumnIndex}`}
                 className={`bg-gradient-to-br from-red-500 to-orange-600 text-white flex items-center justify-center border-r border-gray-200 last:border-r-0 transition-all cursor-pointer relative group ${
@@ -247,7 +247,7 @@ export default function SubgridTable({ data }: SubgridTableProps) {
                 onBlur={() => !isDragging && setFocusedColumn(null)}
               >
                 <div className="font-bold text-xl tracking-widest text-center">
-                  奇数
+                  結合
                 </div>
 
                 {/* ドラッグハンドル */}
@@ -297,6 +297,7 @@ function Demo() {
         "2024-06-18",
       ], // 登録日行
     ],
+    columnFlags: [true, false, true, false, false, true], // 列1,3,6を結合表示
   };
 
   return (
