@@ -24,21 +24,27 @@ export default function SubgridTable({ data }: SubgridTableProps) {
     <div className="border border-gray-300 rounded-lg overflow-hidden shadow-lg font-sans">
       {/* メインテーブルグリッド */}
       <div
-        className="grid"
+        className="grid relative"
         style={{
           gridTemplateColumns: `repeat(${numRows}, 1fr)`,
           gridTemplateRows: `auto repeat(${labels.length}, 1fr)`,
         }}
       >
+        {/* 列全体のホバーボーダー */}
+        {focusedColumn !== null && (
+          <div
+            className="pointer-events-none z-20 border-4 border-blue-400 rounded-md"
+            style={{
+              gridColumn: focusedColumn + 1,
+              gridRow: `1 / ${labels.length + 2}`,
+            }}
+          />
+        )}
         {/* ヘッダー行 */}
         {Array.from({ length: numRows }, (_, columnIndex) => (
           <div
             key={`header-${columnIndex}`}
-            className={`p-4 bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-semibold border-r border-white/30 last:border-r-0 border-b-2 border-indigo-400 flex items-center justify-center text-sm transition-all ${
-              focusedColumn === columnIndex
-                ? "ring-4 ring-blue-400 ring-inset z-10"
-                : ""
-            }`}
+            className="p-4 bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-semibold border-r border-white/30 last:border-r-0 border-b-2 border-indigo-400 flex items-center justify-center text-sm cursor-pointer transition-colors"
             style={{
               gridColumn: columnIndex + 1,
               gridRow: 1,
@@ -58,11 +64,7 @@ export default function SubgridTable({ data }: SubgridTableProps) {
           Array.from({ length: numRows }, (_, columnIndex) => (
             <div
               key={`data-${labelIndex}-${columnIndex}`}
-              className={`p-4 border-r border-gray-200 last:border-r-0 border-b border-gray-200 last:border-b-0 flex items-center text-sm text-gray-800 whitespace-pre-line leading-relaxed bg-white hover:bg-blue-50 transition-all ${
-                focusedColumn === columnIndex
-                  ? "ring-4 ring-blue-400 ring-inset z-10"
-                  : ""
-              }`}
+              className="p-4 border-r border-gray-200 last:border-r-0 border-b border-gray-200 last:border-b-0 flex items-center text-sm text-gray-800 whitespace-pre-line leading-relaxed bg-white hover:bg-blue-50 transition-colors cursor-pointer"
               style={{
                 gridColumn: columnIndex + 1,
                 gridRow: labelIndex + 2,
@@ -104,11 +106,7 @@ export default function SubgridTable({ data }: SubgridTableProps) {
             isOddId(columnIndex) && (
               <div
                 key={`merged-${columnIndex}`}
-                className={`bg-gradient-to-br from-red-500 to-orange-600 text-white flex items-center justify-center border-r border-gray-200 last:border-r-0 transition-all ${
-                  focusedColumn === columnIndex
-                    ? "ring-4 ring-blue-400 ring-inset z-10"
-                    : ""
-                }`}
+                className="bg-gradient-to-br from-red-500 to-orange-600 text-white flex items-center justify-center border-r border-gray-200 last:border-r-0 transition-colors cursor-pointer"
                 style={{
                   gridColumn: columnIndex + 1,
                   gridRow: `1 / ${labels.length + 2}`, // ヘッダーから最後のデータ行まで
@@ -181,6 +179,7 @@ function Demo() {
             <p>✅ useRef不要（DOM操作なし）</p>
             <p>✅ 複雑な計算ロジック不要</p>
             <p>✅ CSS Grid標準機能で列結合</p>
+            <p>✅ 列全体を囲む統一されたボーダー表示</p>
             <p>✅ ブラウザサポート: Chrome 92+, Firefox 89+, Safari 16+</p>
           </div>
         </div>
