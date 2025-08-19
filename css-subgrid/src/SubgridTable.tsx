@@ -153,10 +153,7 @@ export default function SubgridTable({ data }: SubgridTableProps) {
               `ユーザー ${originalColumnIndex + 1}`}
 
             {/* ドラッグハンドル */}
-            <div
-              className="absolute top-1 right-1 cursor-grab active:cursor-grabbing bg-white/20 rounded p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-              title="ドラッグして列を移動"
-            >
+            <div className="absolute top-1 right-1 cursor-grab active:cursor-grabbing bg-white/20 rounded p-1 opacity-0 group-hover:opacity-100 transition-opacity">
               <svg
                 width="12"
                 height="12"
@@ -254,10 +251,7 @@ export default function SubgridTable({ data }: SubgridTableProps) {
                 </div>
 
                 {/* ドラッグハンドル */}
-                <div
-                  className="absolute top-2 right-2 cursor-grab active:cursor-grabbing bg-white/20 rounded p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                  title="ドラッグして列を移動"
-                >
+                <div className="absolute top-2 right-2 cursor-grab active:cursor-grabbing bg-white/20 rounded p-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   <svg
                     width="12"
                     height="12"
@@ -273,21 +267,6 @@ export default function SubgridTable({ data }: SubgridTableProps) {
               </div>
             )
         )}
-      </div>
-
-      {/* 状態表示 */}
-      <div className="p-3 bg-gray-50 text-xs text-gray-600 border-t">
-        <div className="flex justify-between items-center">
-          <div>
-            <span className="font-medium">現在の列順序:</span>{" "}
-            {columnOrder.map((i) => `ユーザー${i + 1}`).join(" → ")}
-          </div>
-          <div className="text-right">
-            <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">
-              {isDragging ? "🟢 ドラッグ中..." : "列をドラッグして並び替え"}
-            </span>
-          </div>
-        </div>
       </div>
     </div>
   );
@@ -324,31 +303,9 @@ function Demo() {
     <div className="p-8 bg-gray-100 min-h-screen">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          完成版：ネイティブ Drag & Drop テーブル
+          SubgridTable with Drag & Drop
         </h1>
         <SubgridTable data={sampleData} />
-        <div className="mt-4 text-sm text-gray-600 space-y-1">
-          <p>
-            🎯 <strong>本格的なドラッグ&ドロップ機能が動作します！</strong>
-          </p>
-          <p>✅ CSS Gridによる列結合とシンプルな実装</p>
-          <p>✅ 列全体を囲む統一されたホバーボーダー</p>
-          <p>✅ ネイティブHTML5 Drag & Drop API使用</p>
-          <p>✅ 奇数列は結合セルとして「奇数」表示</p>
-          <p>✅ ドラッグ中の視覚フィードバック</p>
-          <p>✅ ドロップ位置のハイライト表示</p>
-        </div>
-
-        <div className="mt-6 p-4 bg-green-50 rounded-lg">
-          <h3 className="font-semibold text-green-800 mb-2">🎉 実装完了！</h3>
-          <div className="text-sm text-green-700 space-y-1">
-            <p>• HTML5ネイティブDrag & Drop API使用</p>
-            <p>• 外部ライブラリ不要</p>
-            <p>• 完全に動作するドラッグ&ドロップ</p>
-            <p>• 視覚的フィードバック付き</p>
-            <p>• モバイル対応（タッチデバイスでも動作）</p>
-          </div>
-        </div>
       </div>
     </div>
   );
