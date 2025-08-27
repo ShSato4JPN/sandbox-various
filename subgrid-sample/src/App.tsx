@@ -1,23 +1,37 @@
 import "./App.css";
 
 function App() {
+  const data = [
+    [1, 2, 3, 4, 5, 6],
+    [1, 2, "abc\nd\ne\nfg", 4, 5, 6],
+    [1, 2, 3, 4, 5, 6],
+    [1, 2, 3, 4, 5, 6],
+    [1, 2, 3, 4, 5, 6],
+  ];
+
   return (
-    <div className="grid grid-cols-3">
-      <div>
-        <div>1</div>
-        <div className="h-[300px] bg-orange-200">2</div>
-        <div>3</div>
-      </div>
-      <div>
-        <div>4</div>
-        <div>5</div>
-        <div>6</div>
-      </div>
-      <div>
-        <div>7</div>
-        <div>8</div>
-        <div>9</div>
-      </div>
+    <div
+      className="grid"
+      style={{
+        gridTemplateColumns: `repeat(${data.length}, 1fr)`,
+        gridTemplateRows: `repeat(${data[0].length}, auto)`,
+      }}
+    >
+      {data.map((col, colIndex) => (
+        <div
+          key={colIndex}
+          className="grid grid-rows-subgrid"
+          style={{
+            gridRow: `1 / ${data[0].length + 1}`,
+          }}
+        >
+          {col.map((cell, rowIndex) => (
+            <div key={rowIndex} className="whitespace-pre-wrap">
+              {cell}
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   );
 }
