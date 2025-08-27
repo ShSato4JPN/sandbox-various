@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: system-ui, sans-serif;
+}
+
+.app-container h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.comparison-container {
+  display: flex;
+  gap: 3rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.demo-section {
+  flex: 1;
+  min-width: 500px;
+}
+
+.demo-section h2 {
+  color: #444;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.demo-section p {
+  color: #666;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+/* 通常のGrid設定 */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  border: 2px solid #e74c3c;
+  padding: 1rem;
+  background-color: #ffeaa7;
+}
+
+.grid-item {
+  background-color: #ddd6fe;
+  border: 2px solid #8b5cf6;
+  border-radius: 8px;
+}
+
+.nested-grid {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  gap: 0.5rem;
+  padding: 1rem;
+  height: 100%;
+}
+
+/* Subgrid設定 */
+.subgrid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto auto;
+  gap: 1rem;
+  border: 2px solid #00b894;
+  padding: 1rem;
+  background-color: #a7f3d0;
+}
+
+.subgrid-item {
+  background-color: #bfdbfe;
+  border: 2px solid #3b82f6;
+  border-radius: 8px;
+}
+
+.nested-subgrid {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: 1 / -1;
+  gap: 0.5rem;
+  padding: 1rem;
+  height: 100%;
+}
+
+/* セルの共通スタイル */
+.cell {
+  background-color: white;
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  text-align: center;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* 説明セクション */
+.explanation {
+  background-color: #f8f9fa;
+  padding: 2rem;
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+}
+
+.explanation h3 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+.explanation ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.explanation li {
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  background-color: white;
+  border-radius: 4px;
+  border-left: 3px solid #28a745;
+}
+
+.explanation strong {
+  color: #007bff;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .comparison-container {
+    flex-direction: column;
+  }
+  
+  .demo-section {
+    min-width: auto;
+  }
+  
+  .grid-container,
+  .subgrid-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .subgrid-container {
+    height: auto;
+  }
+}
