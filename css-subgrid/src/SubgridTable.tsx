@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 interface ColumnData {
   labels: string[];
   data: (string | number)[][];
-  columnFlags?: boolean[]; // 結合表示フラグの配列
+  columnFlags?: boolean[];
 }
 
 interface SubgridTableProps {
@@ -23,12 +23,10 @@ export default function SubgridTable({ data }: SubgridTableProps) {
   const dragStartX = useRef(0);
   const dragStartIndex = useRef(-1);
 
-  // フラグがtrueの列を特定
   const isFlaggedColumn = (index: number) => {
     return columnFlags ? columnFlags[index] === true : false;
   };
 
-  // 配列要素を移動する関数
   const arrayMove = (array: number[], oldIndex: number, newIndex: number) => {
     const newArray = [...array];
     const [removed] = newArray.splice(oldIndex, 1);
@@ -36,14 +34,12 @@ export default function SubgridTable({ data }: SubgridTableProps) {
     return newArray;
   };
 
-  // ドラッグ開始
   const handleDragStart = (e: React.DragEvent, columnIndex: number) => {
     setIsDragging(true);
     setDraggedColumn(columnIndex);
     dragStartX.current = e.clientX;
     dragStartIndex.current = columnIndex;
 
-    // ドラッグイメージを透明にする
     const dragImage = new Image();
     dragImage.src =
       "data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=";
@@ -51,25 +47,21 @@ export default function SubgridTable({ data }: SubgridTableProps) {
     e.dataTransfer.effectAllowed = "move";
   };
 
-  // ドラッグオーバー
   const handleDragOver = (e: React.DragEvent, columnIndex: number) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
     setDragOverColumn(columnIndex);
   };
 
-  // ドラッグエンター
   const handleDragEnter = (e: React.DragEvent, columnIndex: number) => {
     e.preventDefault();
     setDragOverColumn(columnIndex);
   };
 
-  // ドラッグリーブ
   const handleDragLeave = (e: React.DragEvent) => {
     // リーブ時は即座にクリアしない（子要素との出入りで誤動作するため）
   };
 
-  // ドロップ
   const handleDrop = (e: React.DragEvent, dropColumnIndex: number) => {
     e.preventDefault();
 
@@ -78,13 +70,11 @@ export default function SubgridTable({ data }: SubgridTableProps) {
       setColumnOrder(newOrder);
     }
 
-    // 状態をリセット
     setIsDragging(false);
     setDraggedColumn(null);
     setDragOverColumn(null);
   };
 
-  // ドラッグ終了
   const handleDragEnd = () => {
     setIsDragging(false);
     setDraggedColumn(null);
@@ -93,18 +83,20 @@ export default function SubgridTable({ data }: SubgridTableProps) {
 
   return (
     <div className="border border-gray-300 rounded-lg overflow-hidden shadow-lg font-sans">
-      {/* メインテーブルグリッド */}
+      {/* メインテーブルグリッド - subgridを活用 */}
       <div
-        className="grid relative"
+        className="subgrid-container"
         style={{
+          display: "grid",
           gridTemplateColumns: `repeat(${numRows}, 1fr)`,
           gridTemplateRows: `auto repeat(${labels.length}, 1fr)`,
+          position: "relative"
         }}
       >
         {/* 列全体のホバーボーダー */}
         {focusedColumn !== null && !isDragging && (
           <div
-            className="pointer-events-none z-20 border-4 border-blue-400 rounded-md"
+            className="pointer-events-none z-20 border-4 border-blue-400 rounded-md absolute"
             style={{
               gridColumn: focusedColumn + 1,
               gridRow: `1 / ${labels.length + 2}`,
@@ -117,7 +109,7 @@ export default function SubgridTable({ data }: SubgridTableProps) {
           dragOverColumn !== null &&
           dragOverColumn !== draggedColumn && (
             <div
-              className="pointer-events-none z-30 border-4 border-green-400 bg-green-100/30 rounded-md"
+              className="pointer-events-none z-30 border-4 border-green-400 bg-green-100/30 rounded-md absolute"
               style={{
                 gridColumn: dragOverColumn + 1,
                 gridRow: `1 / ${labels.length + 2}`,
@@ -125,62 +117,22 @@ export default function SubgridTable({ data }: SubgridTableProps) {
             />
           )}
 
-        {/* ヘッダー行 */}
-        {columnOrder.map((originalColumnIndex, displayIndex) => (
-          <div
-            key={`header-${originalColumnIndex}`}
-            className={`p-4 bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-semibold border-r border-white/30 last:border-r-0 border-b-2 border-indigo-400 flex items-center justify-center text-sm cursor-pointer transition-all relative group ${
-              draggedColumn === displayIndex ? "opacity-50 scale-95" : ""
-            }`}
-            style={{
-              gridColumn: displayIndex + 1,
-              gridRow: 1,
-            }}
-            draggable
-            onDragStart={(e) => handleDragStart(e, displayIndex)}
-            onDragOver={(e) => handleDragOver(e, displayIndex)}
-            onDragEnter={(e) => handleDragEnter(e, displayIndex)}
-            onDragLeave={handleDragLeave}
-            onDrop={(e) => handleDrop(e, displayIndex)}
-            onDragEnd={handleDragEnd}
-            onMouseEnter={() => !isDragging && setFocusedColumn(displayIndex)}
-            onMouseLeave={() => !isDragging && setFocusedColumn(null)}
-            tabIndex={0}
-            onFocus={() => !isDragging && setFocusedColumn(displayIndex)}
-            onBlur={() => !isDragging && setFocusedColumn(null)}
-          >
-            {!isFlaggedColumn(originalColumnIndex) &&
-              `ユーザー ${originalColumnIndex + 1}`}
-
-            {/* ドラッグハンドル */}
-            <div className="absolute top-1 right-1 cursor-grab active:cursor-grabbing bg-white/20 rounded p-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                className="text-white"
-              >
-                <circle cx="3" cy="3" r="1" fill="currentColor" />
-                <circle cx="9" cy="3" r="1" fill="currentColor" />
-                <circle cx="3" cy="9" r="1" fill="currentColor" />
-                <circle cx="9" cy="9" r="1" fill="currentColor" />
-              </svg>
-            </div>
-          </div>
-        ))}
-
-        {/* データ行 */}
-        {labels.map((label, labelIndex) =>
-          columnOrder.map((originalColumnIndex, displayIndex) => (
+        {/* ヘッダー行 - subgridを使用 */}
+        <div 
+          className="header-row"
+          style={{
+            display: "grid",
+            gridColumn: "1 / -1",
+            gridTemplateColumns: "subgrid",
+            gridRow: 1
+          }}
+        >
+          {columnOrder.map((originalColumnIndex, displayIndex) => (
             <div
-              key={`data-${labelIndex}-${originalColumnIndex}`}
-              className={`p-4 border-r border-gray-200 last:border-r-0 border-b border-gray-200 last:border-b-0 flex items-center text-sm text-gray-800 leading-relaxed bg-white hover:bg-blue-50 transition-all cursor-pointer break-words ${
-                draggedColumn === displayIndex ? "opacity-50" : ""
+              key={`header-${originalColumnIndex}`}
+              className={`p-4 bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-semibold border-r border-white/30 last:border-r-0 border-b-2 border-indigo-400 flex items-center justify-center text-sm cursor-pointer transition-all relative group ${
+                draggedColumn === displayIndex ? "opacity-50 scale-95" : ""
               }`}
-              style={{
-                gridColumn: displayIndex + 1,
-                gridRow: labelIndex + 2,
-              }}
               draggable
               onDragStart={(e) => handleDragStart(e, displayIndex)}
               onDragOver={(e) => handleDragOver(e, displayIndex)}
@@ -195,28 +147,81 @@ export default function SubgridTable({ data }: SubgridTableProps) {
               onBlur={() => !isDragging && setFocusedColumn(null)}
             >
               {!isFlaggedColumn(originalColumnIndex) &&
-                (label === "ステータス" ? (
-                  <span
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium uppercase tracking-wide ${
-                      columnData[labelIndex][originalColumnIndex]
-                        ?.toString()
-                        .toLowerCase() === "active"
-                        ? "bg-green-100 text-green-800 border border-green-300"
-                        : columnData[labelIndex][originalColumnIndex]
-                            ?.toString()
-                            .toLowerCase() === "inactive"
-                        ? "bg-red-100 text-red-800 border border-red-300"
-                        : "bg-orange-100 text-orange-800 border border-orange-300"
-                    }`}
-                  >
-                    {columnData[labelIndex][originalColumnIndex]}
-                  </span>
-                ) : (
-                  columnData[labelIndex][originalColumnIndex]
-                ))}
+                `ユーザー ${originalColumnIndex + 1}`}
+
+              {/* ドラッグハンドル */}
+              <div className="absolute top-1 right-1 cursor-grab active:cursor-grabbing bg-white/20 rounded p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  className="text-white"
+                >
+                  <circle cx="3" cy="3" r="1" fill="currentColor" />
+                  <circle cx="9" cy="3" r="1" fill="currentColor" />
+                  <circle cx="3" cy="9" r="1" fill="currentColor" />
+                  <circle cx="9" cy="9" r="1" fill="currentColor" />
+                </svg>
+              </div>
             </div>
-          ))
-        )}
+          ))}
+        </div>
+
+        {/* データ行 - subgridを使用 */}
+        {labels.map((label, labelIndex) => (
+          <div
+            key={`row-${labelIndex}`}
+            className="data-row"
+            style={{
+              display: "grid",
+              gridColumn: "1 / -1",
+              gridTemplateColumns: "subgrid",
+              gridRow: labelIndex + 2
+            }}
+          >
+            {columnOrder.map((originalColumnIndex, displayIndex) => (
+              <div
+                key={`data-${labelIndex}-${originalColumnIndex}`}
+                className={`p-4 border-r border-gray-200 last:border-r-0 border-b border-gray-200 last:border-b-0 flex items-center text-sm text-gray-800 leading-relaxed bg-white hover:bg-blue-50 transition-all cursor-pointer break-words ${
+                  draggedColumn === displayIndex ? "opacity-50" : ""
+                }`}
+                draggable
+                onDragStart={(e) => handleDragStart(e, displayIndex)}
+                onDragOver={(e) => handleDragOver(e, displayIndex)}
+                onDragEnter={(e) => handleDragEnter(e, displayIndex)}
+                onDragLeave={handleDragLeave}
+                onDrop={(e) => handleDrop(e, displayIndex)}
+                onDragEnd={handleDragEnd}
+                onMouseEnter={() => !isDragging && setFocusedColumn(displayIndex)}
+                onMouseLeave={() => !isDragging && setFocusedColumn(null)}
+                tabIndex={0}
+                onFocus={() => !isDragging && setFocusedColumn(displayIndex)}
+                onBlur={() => !isDragging && setFocusedColumn(null)}
+              >
+                {!isFlaggedColumn(originalColumnIndex) &&
+                  (label === "ステータス" ? (
+                    <span
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium uppercase tracking-wide ${
+                        columnData[labelIndex][originalColumnIndex]
+                          ?.toString()
+                          .toLowerCase() === "active"
+                          ? "bg-green-100 text-green-800 border border-green-300"
+                          : columnData[labelIndex][originalColumnIndex]
+                              ?.toString()
+                              .toLowerCase() === "inactive"
+                          ? "bg-red-100 text-red-800 border border-red-300"
+                          : "bg-orange-100 text-orange-800 border border-orange-300"
+                      }`}
+                    >
+                      {columnData[labelIndex][originalColumnIndex]}
+                    </span>
+                  ) : (
+                    columnData[labelIndex][originalColumnIndex]
+                  ))}
+              </div>
+            ))}
+          </div>
+        ))}
 
         {/* フラグがtrueの列の結合セル */}
         {columnOrder.map(
