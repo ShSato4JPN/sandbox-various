@@ -27,7 +27,12 @@ function App() {
             }}
           >
             {colIndex % 2 === 0 ? (
-              <div>test</div>
+              <div
+                className="size-full bg-orange-200 grid place-items-center"
+                style={{ gridRow: `1 / ${data[0].length + 1}` }}
+              >
+                test
+              </div>
             ) : (
               <>
                 {col.map((cell, rowIndex) => (
